@@ -28,7 +28,54 @@ python3 driftwatch.py framediff
 Exit codes, so it can sit in a script or CI job:
 **0** STABLE · **1** CHANGED · **2** INCONCLUSIVE ·
 **3** misconfigured (bad config or missing baseline — no record
-written).
+written). In pin mode (below): **0** = baseline pinned,
+**2** = pin failed (no baseline record written), **3** =
+misconfigured.
+
+## Pin a baseline — your first run
+
+A suite needs a baseline before it can compare. Pinning one is a
+single command:
+
+```bash
+python3 driftwatch.py my-suite --pin-baseline
+```
+
+Pin mode runs the suite's commands and extracts the measurements
+exactly as a normal run does, then writes them as a baseline
+Proof Record:
+
+- Every measurement carries result **"noted"** — a pin records
+  the values of record; it is not a pass/fail judgement.
+- The verdict states plainly that the record pins the baseline
+  for the named suite on that date, and the limitations state
+  that it records one run on one machine on one day.
+- The raw command outputs are saved and hashed into the record's
+  evidence, under `out/<suite>/<date>/<time>/`, as in a normal
+  run.
+
+**Where it lands:** `baselines/<suite>-baseline.json` next to
+the runner, unless the config names a `baseline_path`. The
+runner prints the exact path and the one config change that
+points normal runs at the pin:
+
+```
+"baseline_record": "<path to the pinned baseline>"
+```
+
+**An existing baseline is never overwritten.** If a file already
+sits at the pin path, the new pin is written alongside it with a
+timestamped name (`<suite>-baseline-<date>-<time>.json`) and the
+runner says so — a baseline of record changing silently is
+exactly the failure this tool exists to catch. To re-pin on
+purpose, point `baseline_record` at the new file.
+
+**Pin failures are honest:** if a command fails or a measurement
+cannot be extracted, pin mode writes no baseline record, prints
+the reason, and exits 2. There is no pin with invented values.
+
+In pin mode the config does not need a `baseline_record` field —
+that is the thing being created.
 
 ## What it writes
 
@@ -76,10 +123,21 @@ A suite config is one JSON file. Fields:
 - `description` — what the suite measures and any limits (e.g. an
   arm it does not cover). Copied nowhere automatically; it is there
   so the next reader understands the config.
-- `baseline_record` *(required)* — path to the pinned baseline Proof
-  Record. The runner compares against the `measurements` in this
-  record, by name, and copies its `subject` into the run record.
-  `~` expands to your home directory.
+- `baseline_record` *(required for compare mode)* — path to the
+  pinned baseline Proof Record. The runner compares against the
+  `measurements` in this record, by name, and copies its `subject`
+  into the run record. `~` expands to your home directory. Create
+  the baseline with `--pin-baseline` (above); pin mode does not
+  need this field.
+- `baseline_path` — where `--pin-baseline` writes the baseline
+  record (default: `baselines/<suite>-baseline.json` next to the
+  runner). An existing file there is never overwritten — see
+  "Pin a baseline".
+- `subject` — an optional Proof Record subject object
+  (`{"kind": ..., "name": ...}`) copied into the pinned baseline.
+  Without it, the pin builds the subject from the suite's
+  `description`. Compare-mode run records take their subject from
+  the baseline, as before.
 - `commands` *(required)* — a list of command objects, run in order.
 - `tolerances` — `default_abs`: the absolute tolerance applied to
   every numeric measurement (0 = exact match). `per_measurement`:
@@ -127,11 +185,14 @@ A suite config is one JSON file. Fields:
 - `pattern` — the regular expression (for the other two kinds).
 - `group` — capture group for `regex` (default 1).
 
-To pin a baseline for a new suite, run the suite once by hand and
-write its measurements into a Proof Record (the format is the
-schema in `open-door-standards/schemas/proof-record.schema.json`;
+To pin a baseline for a new suite, run it once with
+`--pin-baseline` (see "Pin a baseline" above) and set the config's
+`baseline_record` to the path it prints. Hand-writing a baseline
+record is still possible — the format is the schema in
+`open-door-standards/schemas/proof-record.schema.json`, and
 `proof/build_records.py` in this repo is a worked example of
-building records with correct seals).
+building records with correct seals — but it is no longer the
+only way.
 
 ## Honest scope
 

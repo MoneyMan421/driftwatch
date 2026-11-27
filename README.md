@@ -78,6 +78,16 @@ hands, run twice — has not happened yet. Anything this page says
 DriftWatch *does* is the method above; anything it *will do* is
 labelled as such. That distinction is the product.
 
+## Testers wanted
+
+Five outside testers, to complete the smallest proof: run the
+runner twice — once now, once after anything changes — and answer
+five short questions about the experience. The pass line is at
+least three of five running it twice, and at least one saying a
+report changed a decision. If you build or run agents and want
+in, open an issue on this repo. Short and blunt feedback is
+perfect; a failure I can read is worth more than praise.
+
 ## The house rules
 
 - Measure the deliverable, never the record of it.

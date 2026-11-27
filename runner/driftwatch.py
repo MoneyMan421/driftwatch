@@ -17,9 +17,15 @@ actually ran in this session.
 Usage:
     python3 driftwatch.py suites/skills-integrity.json
     python3 driftwatch.py seam-check          # looks in ./suites/
+    python3 driftwatch.py my-suite --pin-baseline
+        # first run: record the suite's current measurements as
+        # its pinned baseline Proof Record (see README, "Pin a
+        # baseline"). No baseline is needed to pin one.
 
-Exit codes: 0 = STABLE, 1 = CHANGED, 2 = INCONCLUSIVE,
-3 = the run itself was misconfigured (no record written).
+Exit codes: 0 = STABLE (compare) or baseline pinned (pin mode),
+1 = CHANGED, 2 = INCONCLUSIVE (compare) or pin failed (pin mode —
+no baseline record written), 3 = the run itself was misconfigured
+(no record written).
 
 Standard library only. Python 3.9+.
 """
@@ -34,7 +40,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 STANDARD = {"name": "Proof Record", "version": "0.3.0"}
-RUNNER_VERSION = "0.1.0"
+RUNNER_VERSION = "0.2.0"
 DEFAULT_TIMEOUT = 900  # seconds, per command
 
 
@@ -145,6 +151,24 @@ def extract_measurements(config, outputs):
                     f"({kind}: {spec.get('path', spec.get('pattern'))}): {exc}")
             fresh[name] = value
     return fresh
+
+
+def execute_suite(config, out_dir):
+    """Run every configured command, save each raw stdout under
+    out_dir, and extract the measurements. Shared by compare mode
+    and pin mode so both measure exactly the same way. Raises
+    Inconclusive on any command or extraction failure."""
+    outputs, evidence = [], []
+    for i, cmd_cfg in enumerate(config["commands"], 1):
+        stdout, stderr, _rc = run_command(cmd_cfg)
+        raw_path = out_dir / f"raw-cmd{i}.txt"
+        raw_path.write_text(stdout)
+        evidence.append({
+            "kind": "file", "locator": str(raw_path),
+            "sha256": hashlib.sha256(stdout.encode()).hexdigest()})
+        outputs.append((cmd_cfg, stdout))
+    fresh = extract_measurements(config, outputs)
+    return fresh, evidence
 
 
 # ---------------------------------------------------------------- compare
@@ -286,6 +310,90 @@ def write_summary(path, config, baseline, rows, missing, extras,
     path.write_text("\n".join(lines))
 
 
+# ---------------------------------------------------------------- pinning
+
+def resolve_pin_path(config, date_str, stamp):
+    """Where a pin lands. The config may name it (`baseline_path`);
+    otherwise baselines/<suite>-baseline.json next to this script.
+
+    Returns (path, renamed). An existing file at the target is
+    never overwritten: the new pin goes alongside with a
+    timestamped name and renamed is True, so the caller says so."""
+    suite = config["suite"]
+    if config.get("baseline_path"):
+        target = Path(expand(config["baseline_path"]))
+    else:
+        target = (Path(__file__).parent / "baselines"
+                  / f"{suite}-baseline.json")
+    if not target.exists():
+        return target, False
+    stamped = target.with_name(
+        f"{target.stem}-{date_str}-{stamp}{target.suffix}")
+    n = 2
+    while stamped.exists():
+        stamped = target.with_name(
+            f"{target.stem}-{date_str}-{stamp}-{n}{target.suffix}")
+        n += 1
+    return stamped, True
+
+
+def build_pin_record(config, fresh, evidence, stamp, date_str):
+    """The baseline Proof Record written by --pin-baseline.
+
+    Every measurement carries result "noted": a pin records the
+    values of record, it does not judge them. The subject comes
+    from the config's optional `subject` object when present;
+    otherwise it is built from the suite name and description."""
+    suite = config["suite"]
+    subject = config.get("subject")
+    if not isinstance(subject, dict) or "name" not in subject:
+        subject = {"kind": "other",
+                   "name": config.get("description")
+                           or f"Subject of DriftWatch suite '{suite}'"}
+    measurements = [{"name": name, "value": value,
+                     "target": "pinned baseline value (this record)",
+                     "result": "noted"}
+                    for name, value in fresh.items()]
+    commands = "; ".join(" ".join(expand(a) for a in c["argv"])
+                         for c in config["commands"])
+    record = {
+        "record_id": f"DW-{suite.upper()}-BASELINE-{date_str}-{stamp}",
+        "record_type": "checker_result",
+        "standard": STANDARD,
+        "subject": subject,
+        "method": {
+            "tool": f"DriftWatch runner (driftwatch.py {RUNNER_VERSION}) — "
+                    f"suite '{suite}', pin-baseline mode",
+            "tool_version": f"driftwatch.py {RUNNER_VERSION}",
+            "procedure": commands,
+            "measured_at": date_str,
+            "environment": "Local run via the DriftWatch free runner; "
+                           "baseline pin (first recorded run)",
+        },
+        "measurements": measurements,
+        "verdict": {"outcome":
+                    f"BASELINE PINNED — this record pins the baseline "
+                    f"for suite '{suite}' on {date_str}: "
+                    f"{len(measurements)} measurement(s) recorded from "
+                    f"one run. No comparison was made; a pin is not a "
+                    f"pass or a fail."},
+        "evidence": evidence,
+        "limitations": [
+            "This baseline records one run on one machine on one day "
+            f"({date_str}). It states the values of record for later "
+            "comparison; it does not establish that the values are "
+            "good, only that they are the values that were measured.",
+            "Every measurement carries result 'noted': pinning is "
+            "not a pass/fail judgement."],
+        "supersedes": None,
+        "issued_by": f"DriftWatch runner (driftwatch.py {RUNNER_VERSION})"
+                     " — pin-baseline mode",
+        "issued_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+    record["body_sha256"] = canonical_body_sha256(record)
+    return record
+
+
 # ---------------------------------------------------------------- main
 
 def resolve_config(arg):
@@ -299,21 +407,62 @@ def resolve_config(arg):
     raise ConfigError(f"suite config not found: {arg}")
 
 
+def run_pin(config, suite, out_dir, date_str, stamp):
+    """--pin-baseline: run the suite once and write its measurements
+    as a baseline Proof Record. On any failure, no record is
+    written and the exit code is 2."""
+    try:
+        fresh, evidence = execute_suite(config, out_dir)
+    except Inconclusive as exc:
+        print(f"{suite}: PIN FAILED — {exc}", file=sys.stderr)
+        print("no baseline record was written.", file=sys.stderr)
+        return 2
+    if not fresh:
+        print(f"{suite}: PIN FAILED — the suite produced no "
+              "measurements to pin.", file=sys.stderr)
+        print("no baseline record was written.", file=sys.stderr)
+        return 2
+    record = build_pin_record(config, fresh, evidence, stamp, date_str)
+    target, renamed = resolve_pin_path(config, date_str, stamp)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(record, indent=2) + "\n")
+    if renamed:
+        print(f"note: a baseline already exists at the pin path and "
+              f"was NOT overwritten; this pin was written alongside "
+              f"it with a timestamped name.")
+    print(f"{suite}: BASELINE PINNED — {len(fresh)} measurement(s) "
+          f"recorded, no comparison made.")
+    print(f"baseline: {target}")
+    print(f"next: set this in {suite}'s config so normal runs "
+          f"compare against the pin:")
+    print(f'  "baseline_record": "{target}"')
+    print(f"then run: python3 driftwatch.py {suite}")
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="DriftWatch single-suite runner")
     ap.add_argument("config", help="suite config path, or a name in ./suites/")
     ap.add_argument("--out", default=None,
                     help="output root (default: ./out next to this script)")
+    ap.add_argument("--pin-baseline", action="store_true",
+                    help="run the suite once and write its measurements "
+                         "as a baseline Proof Record, instead of "
+                         "comparing against one (no baseline needed)")
     args = ap.parse_args(argv)
 
     try:
         config_path = resolve_config(args.config)
         config = load_json(config_path, "suite config")
-        for field in ("suite", "baseline_record", "commands"):
+        required = ("suite", "commands") if args.pin_baseline \
+            else ("suite", "baseline_record", "commands")
+        for field in required:
             if field not in config:
                 raise ConfigError(f"config missing field: {field}")
-        baseline_path = expand(config["baseline_record"])
-        baseline = load_json(baseline_path, "baseline record")
+        baseline = None
+        if not args.pin_baseline:
+            baseline_path = expand(config["baseline_record"])
+            baseline = load_json(baseline_path, "baseline record")
     except ConfigError as exc:
         print(f"driftwatch: {exc}", file=sys.stderr)
         return 3
@@ -325,19 +474,13 @@ def main(argv=None):
     out_dir = out_root / suite / date_str / stamp
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    if args.pin_baseline:
+        return run_pin(config, suite, out_dir, date_str, stamp)
+
     outcome, reason, rows, missing, extras = None, None, [], [], []
     fresh, evidence = {}, []
     try:
-        outputs = []
-        for i, cmd_cfg in enumerate(config["commands"], 1):
-            stdout, stderr, _rc = run_command(cmd_cfg)
-            raw_path = out_dir / f"raw-cmd{i}.txt"
-            raw_path.write_text(stdout)
-            evidence.append({
-                "kind": "file", "locator": str(raw_path),
-                "sha256": hashlib.sha256(stdout.encode()).hexdigest()})
-            outputs.append((cmd_cfg, stdout))
-        fresh = extract_measurements(config, outputs)
+        fresh, evidence = execute_suite(config, out_dir)
         tolerances = config.get("tolerances", {})
         rows, missing, extras = compare(baseline, fresh, tolerances)
         if missing:

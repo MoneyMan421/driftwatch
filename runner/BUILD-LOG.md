@@ -132,3 +132,118 @@ remain in `out/seam-check/2026-11-27/160946/` (a CHANGED verdict
 produced by the float-representation edge, before the fix) — kept
 as build history and explained in Checkpoint 3; the parent may
 delete that folder before pushing if a clean `out/` is preferred.
+
+---
+
+# Pin-baseline mode — 2026-11-27 (later session)
+
+**Task:** close the first-run gap. Pinning a baseline was manual
+(write a Proof Record by hand, per the old README). Add
+`--pin-baseline` so run 1 is a single command. Local only — no
+GitHub writes.
+
+## Checkpoint P1 — design (from the sources above)
+
+- CLI: `python3 driftwatch.py <suite-or-config> --pin-baseline`.
+  In pin mode `baseline_record` is not required and not loaded —
+  a new suite has none yet. Compare mode is untouched, including
+  the 1e-9 epsilon in `compare()`.
+- Pin path: optional config field `baseline_path`; default
+  `baselines/<suite>-baseline.json` next to this script.
+- Overwrite rule: an existing file at the pin path is NEVER
+  overwritten. The new pin lands alongside with a timestamped
+  name (`<suite>-baseline-<date>-<time>.json`) and the runner
+  says so. A baseline of record changing silently is exactly the
+  failure DriftWatch exists to catch.
+- Pin record: schema v0.3.0, `body_sha256` by the existing
+  convention; every measurement `result: "noted"` (a pin is not
+  a judgement); verdict states plainly that the record pins the
+  baseline for the named suite on that date; evidence = hashed
+  raw command outputs (written under `out/<suite>/<date>/<time>/`
+  as in compare mode); limitations state it records one run on
+  one machine on one day.
+- Pin failure (command fails, or a measurement cannot be
+  extracted): no baseline record is written, reason printed,
+  exit 2. Misconfiguration stays exit 3.
+- The runner prints the exact baseline path and the one config
+  change (`"baseline_record": "<path>"`) that makes the next
+  normal run compare against the pin.
+- Runner version bumps 0.1.0 → 0.2.0 (new mode; compare logic
+  and verdicts unchanged — the regression self-test below is the
+  evidence).
+
+Next: implement in `driftwatch.py`.
+
+## Checkpoint P2 — implemented
+
+- `driftwatch.py` (now 0.2.0): `--pin-baseline` flag; command
+  execution + extraction factored into `execute_suite()`, shared
+  by both modes so pin and compare measure identically; compare
+  mode's flow, verdicts and exit codes unchanged (the refactor
+  only moved the loop). `resolve_pin_path()` implements the
+  no-overwrite rule; `build_pin_record()` writes the pin record
+  (measurements `noted`, subject from an optional config
+  `subject` object, else built from the description).
+- Pin mode does not require or load `baseline_record`.
+
+Next: self-tests — pin + compare for skills-integrity and
+seam-check on scratch configs, the no-overwrite path, an honest
+pin failure, and the three-suite regression.
+
+## Checkpoint P3 — self-tests (all through the runner itself)
+
+Scratch configs under /tmp/dw-pin/ copied the shipped configs and
+added a temp `baseline_path`, so the shipped configs and proof
+baselines are untouched. All runs used `--out` roots under /tmp.
+
+1. **Pin skills-integrity** → exit 0, 5 measurements pinned to
+   /tmp/dw-pin/skills-baseline.json
+   (record DW-SKILLS-INTEGRITY-BASELINE-2026-11-27-162317).
+   **Compare against the pin** → **STABLE, 5/5 within tolerance**,
+   exit 0.
+2. **Pin seam-check** → exit 0, 10 measurements (the 8 numerics
+   plus the two checker verdicts, which a pin records like any
+   other extracted value). **Compare against the pin** →
+   **STABLE, 10/10**, exit 0. (Against the proof baseline the
+   verdicts are noted extras; against its own pin they are
+   baseline measurements compared by equality — consistent, and
+   arguably stricter.)
+3. **No-overwrite:** pinning skills-integrity a second time left
+   the first pin byte-identical (sha256 compared before/after)
+   and wrote skills-baseline-2026-11-27-162318.json alongside,
+   with the notice printed.
+4. **Honest pin failure:** a scratch config whose extraction
+   pattern cannot match → "PIN FAILED — could not extract…",
+   exit 2, and no baseline file exists afterwards.
+5. **Regression (compare mode unchanged):** the three shipped
+   suites against their original proof baselines —
+   skills-integrity **STABLE 5/5** (DW-C-BASELINE-2026-11-26),
+   seam-check **STABLE 8/8** (DW-A-BASELINE-2026-11-17),
+   framediff **STABLE 6/6** (DW-B-BASELINE-2026-11-26), all
+   exit 0.
+6. **Validation:** 8 records emitted across the tests (3 pins +
+   5 run records) — every one validates against Proof Record
+   schema v0.3.0 (jsonschema) and every `body_sha256` matches an
+   independent recomputation done with the build_records.py
+   convention in a snippet that does not import the runner.
+
+## Final state — pin-baseline mode
+
+| Check | Result |
+|---|---|
+| Pin → compare, skills-integrity | PINNED 5 · STABLE 5/5 |
+| Pin → compare, seam-check | PINNED 10 · STABLE 10/10 |
+| Second pin over an existing baseline | original untouched, timestamped sibling written |
+| Pin with unextractable measurement | exit 2, no record written |
+| Regression: 3 shipped suites, compare mode | STABLE 5/5 · 8/8 · 6/6 |
+| Records schema-valid, seals recomputed | 8/8 PASS, 8/8 MATCH |
+
+Docs updated in the same pass: README (pin mode section,
+`baseline_path` / `subject` config fields, exit codes, the
+hand-written-baseline paragraph) and the tester quickstart
+(`../handoff/QUICKSTART.md`, Run 2 steps 2–3 now the pin flow).
+
+Nothing did not go cleanly in this build; the one surprise was
+benign — seam-check's pin carries 10 measurements, not 8, because
+the verdict strings are extracted values too (see test 2).
+Nothing was pushed to GitHub.
