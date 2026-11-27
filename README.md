@@ -60,13 +60,19 @@ decision.
 
 ## Status — stated plainly
 
-**Concept and method: published here. Runner and first suites: in
-build.** This repository currently holds the concept of record and
-nothing else — no code, no suites, no reports yet. When the first
-suite runs, it lands here with its baseline, and this section is
-updated in the same commit. Anything this page says DriftWatch
-*does* is the method above; anything it *will do* is labelled as
-such. That distinction is the product.
+**First proof run: complete — steps 1–3 of the smallest proof.**
+On 2026-11-27, three existing suites were pinned to their recorded
+baselines and re-run unchanged: the ProofBench Seam Check (T9,
+CIEDE2000), the framediff media check on Two Lights v1 vs v3, and
+the Measured Skills release-integrity check. The first Drift Report
+— `reports/DRIFT-REPORT-2026-11-27-001.md` — records what the runs
+showed: one real change, two stable results, and one arm that could
+not be re-measured and is reported inconclusive. Proof Records and
+the full run log are under `proof/`. Step 4 of the proof — the
+runner in five outside hands, run twice — has not happened yet,
+and the packaged runner is still in build. Anything this page says
+DriftWatch *does* is the method above; anything it *will do* is
+labelled as such. That distinction is the product.
 
 ## The house rules
 

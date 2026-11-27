@@ -1,0 +1,94 @@
+{
+  "record_id": "DW-A-BASELINE-2026-11-17",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "tool",
+    "name": "ProofBench Seam Check (T9) on PG4 canonical fixtures \u2014 certified checker arm",
+    "version": "print_check.py sha256:54d986d9bda2fdb4ce08dea22a4c426af55c088f9968436272daf21b7d2a9d98",
+    "content_sha256": "27d717af4bf490c3336f01992529b09cda6b5bc1f1808c9e739b6c7b662cf59e"
+  },
+  "method": {
+    "tool": "print_check.py --pattern (certified reference checker)",
+    "tool_version": "sha256:54d986d9bda2fdb4ce08dea22a4c426af55c088f9968436272daf21b7d2a9d98",
+    "procedure": "T9 seam check at native resolution on pg4-clean-tile.png and pg4-shifted-tile.png (256x256), worse axis rules, as recorded 2026-11-17",
+    "measured_at": "2026-11-17",
+    "environment": "Readings transcribed from ~/workspace/proofbench-acceptance/acceptance-report-2026-11-17.md (primary) and documents/12-SKILL-browser-utility-webapp-v3.md"
+  },
+  "measurements": [
+    {
+      "name": "clean_vertical_wrap_ratio",
+      "value": 0.72,
+      "target": "CLEANLY band: wrap ratio <= 1.5 and dE00 excess <= 1.0",
+      "result": "pass"
+    },
+    {
+      "name": "clean_vertical_de_excess",
+      "value": -7.14,
+      "target": "CLEANLY band: wrap ratio <= 1.5 and dE00 excess <= 1.0",
+      "result": "pass"
+    },
+    {
+      "name": "clean_horizontal_wrap_ratio",
+      "value": 0.6,
+      "target": "CLEANLY band: wrap ratio <= 1.5 and dE00 excess <= 1.0",
+      "result": "pass"
+    },
+    {
+      "name": "clean_horizontal_de_excess",
+      "value": -0.45,
+      "target": "CLEANLY band: wrap ratio <= 1.5 and dE00 excess <= 1.0",
+      "result": "pass"
+    },
+    {
+      "name": "shifted_vertical_wrap_ratio",
+      "value": 24.36,
+      "target": "FAILS band (by construction: right half rolled 40 px)",
+      "result": "pass"
+    },
+    {
+      "name": "shifted_vertical_de_excess",
+      "value": 21.39,
+      "target": "FAILS band (by construction)",
+      "result": "pass"
+    },
+    {
+      "name": "shifted_horizontal_wrap_ratio",
+      "value": 0.6,
+      "target": "CLEANLY band: wrap ratio <= 1.5 and dE00 excess <= 1.0",
+      "result": "pass"
+    },
+    {
+      "name": "shifted_horizontal_de_excess",
+      "value": -0.45,
+      "target": "CLEANLY band: wrap ratio <= 1.5 and dE00 excess <= 1.0",
+      "result": "pass"
+    }
+  ],
+  "verdict": {
+    "outcome": "CLEANLY (clean fixture), FAILS (shifted fixture) \u2014 both as constructed"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/proofbench-acceptance/acceptance-report-2026-11-17.md",
+      "sha256": "09bd1b62443760687c25e328688585524d4de3e54f664412a44f09443971fa93"
+    }
+  ],
+  "limitations": [
+    "Baseline transcribed from the Nov 17 acceptance record, not re-measured on that date by this run.",
+    "The live hosted app arm of the Nov 17 baseline is a separate implementation and is not covered by this record."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-A-RERUN-2026-11-27"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "Mira \u2014 DriftWatch smallest proof run, 2026-11-27",
+  "issued_at": "2026-11-27T16:00:44Z",
+  "body_sha256": "285d482a18b571c50060ca698442804d473ca1437b133ce4bcd4e52af88ba69c"
+}

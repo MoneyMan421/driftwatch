@@ -1,0 +1,109 @@
+{
+  "record_id": "DW-A-RERUN-2026-11-27",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "tool",
+    "name": "ProofBench Seam Check (T9) on PG4 canonical fixtures \u2014 certified checker arm",
+    "version": "print_check.py sha256:54d986d9bda2fdb4ce08dea22a4c426af55c088f9968436272daf21b7d2a9d98",
+    "content_sha256": "27d717af4bf490c3336f01992529b09cda6b5bc1f1808c9e739b6c7b662cf59e"
+  },
+  "method": {
+    "tool": "print_check.py --pattern (certified reference checker)",
+    "tool_version": "sha256:54d986d9bda2fdb4ce08dea22a4c426af55c088f9968436272daf21b7d2a9d98",
+    "procedure": "python3 tools/print_check.py <fixture> --print-width-mm 100 --print-height-mm 100 --pattern --json (print dimensions feed only the DPI arm, not the T9 seam check)",
+    "measured_at": "2026-11-27",
+    "environment": "Local run, fixtures at ~/workspace/proofbench-acceptance/ (clean sha256 27d717af..., shifted sha256 2edc8533...)"
+  },
+  "measurements": [
+    {
+      "name": "clean_vertical_wrap_ratio",
+      "value": 0.719,
+      "target": 0.72,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    },
+    {
+      "name": "clean_vertical_de_excess",
+      "value": -7.136,
+      "target": -7.14,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    },
+    {
+      "name": "clean_horizontal_wrap_ratio",
+      "value": 0.595,
+      "target": 0.6,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    },
+    {
+      "name": "clean_horizontal_de_excess",
+      "value": -0.449,
+      "target": -0.45,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    },
+    {
+      "name": "shifted_vertical_wrap_ratio",
+      "value": 24.356,
+      "target": 24.36,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    },
+    {
+      "name": "shifted_vertical_de_excess",
+      "value": 21.386,
+      "target": 21.39,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    },
+    {
+      "name": "shifted_horizontal_wrap_ratio",
+      "value": 0.595,
+      "target": 0.6,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    },
+    {
+      "name": "shifted_horizontal_de_excess",
+      "value": -0.449,
+      "target": -0.45,
+      "result": "pass",
+      "tolerance": "match at baseline precision (2 dp)"
+    }
+  ],
+  "verdict": {
+    "outcome": "STABLE \u2014 verdicts CLEANLY / FAILS and all eight readings reproduce the 2026-11-17 baseline at its recorded precision",
+    "deficits": [
+      "Live hosted app arm not re-run: no browser operation was available in this session, so the app readings of Nov 17 (clean 0.82/-0.91, 0.72/-0.02; shifted 27.13/+36.86, 0.72/-0.02) are unverified for drift \u2014 inconclusive, not assumed stable."
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/proof/raw/suite-a-clean.json",
+      "sha256": "fc971cf98c8e2cfd82d4a162eb3f1d82993679704669f1fc1678f5f164cf0537"
+    },
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/proof/raw/suite-a-shifted.json",
+      "sha256": "6192bdc7e35b1fa4f33fa35997b49a972b45c41620d9680d89bc13b81668db39"
+    }
+  ],
+  "limitations": [
+    "Covers the certified-checker implementation only; the hosted app samples differently and its numbers are not interchangeable with these."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-A-BASELINE-2026-11-17"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "Mira \u2014 DriftWatch smallest proof run, 2026-11-27",
+  "issued_at": "2026-11-27T16:00:44Z",
+  "body_sha256": "1c854807bd6fb524265f22fb6fea102a84e9ce75a78e049d1ff5baf15fd99e62"
+}

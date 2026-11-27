@@ -1,0 +1,96 @@
+{
+  "record_id": "DW-B-RERUN-2026-11-27",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "output",
+    "name": "Two Lights video v1 vs v3 \u2014 outside-window frame difference (window 6.5-10.0 s excluded)",
+    "version": "v3 sha256:f41653ace620e36eaf21659ab6c3e563db5b0a9a51ba21f4d0bd393b1b174001; v1 sha256:44ab6a4f630879ce3162b846bfd1937b1b6e3739eee7aa0d53de4108bdbb6e6b",
+    "content_sha256": "f41653ace620e36eaf21659ab6c3e563db5b0a9a51ba21f4d0bd393b1b174001"
+  },
+  "method": {
+    "tool": "framediff.py (Fix the Take proof harness)",
+    "tool_version": "sha256:bd9ed544e34ed3132a3520266b0f4e23e4a9eb51af7285dc3dcf4a9f7221faf3",
+    "procedure": "python3 framediff.py <A> <B> --start 6.5 --end 10.0 --json, run for v3-vs-v3 and v3-vs-v1",
+    "measured_at": "2026-11-27",
+    "environment": "Local run on the same two video files pinned by sha256 in the subject"
+  },
+  "measurements": [
+    {
+      "name": "self_v3v3_mad_max",
+      "value": 0.0,
+      "target": 0.0,
+      "result": "pass",
+      "tolerance": "delta vs baseline 0.0000"
+    },
+    {
+      "name": "self_v3v3_mad_mean",
+      "value": 0.0,
+      "target": 0.0,
+      "result": "pass",
+      "tolerance": "delta vs baseline 0.0000"
+    },
+    {
+      "name": "cross_v3v1_mad_max",
+      "value": 78.6012,
+      "target": 78.6012,
+      "result": "pass",
+      "tolerance": "delta vs baseline 0.0000",
+      "unit": "MAD"
+    },
+    {
+      "name": "cross_v3v1_mad_mean",
+      "value": 68.6311,
+      "target": 68.6311,
+      "result": "pass",
+      "tolerance": "delta vs baseline 0.0000",
+      "unit": "MAD"
+    },
+    {
+      "name": "cross_v3v1_mad_median",
+      "value": 70.1647,
+      "target": 70.1647,
+      "result": "pass",
+      "tolerance": "delta vs baseline 0.0000",
+      "unit": "MAD"
+    },
+    {
+      "name": "cross_frames_with_mad_over_5",
+      "value": 156,
+      "target": 156,
+      "result": "pass",
+      "tolerance": "of 156 frames compared"
+    }
+  ],
+  "verdict": {
+    "outcome": "CHANGED (subject): between Two Lights v1 and v3 all 156 outside-window frames differ substantially (mean MAD 68.6311 of 255). Instrument stable: every pinned statistic reproduced with delta 0.0000"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/proof/raw/suite-b-self-v3v3.json",
+      "sha256": "01fdbfd5d70390f08b66ab74f0522f9000e420777d974edf2fd42a1bdee6d668"
+    },
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/proof/raw/suite-b-cross-v3v1.json",
+      "sha256": "d19d26816ac25ac84fdb44f484cfaf06d783f0f583ec18773586815f25ffd129"
+    }
+  ],
+  "limitations": [
+    "Frames inside the 6.5-10.0 s window (84 frames) are excluded by the harness and are not measured here.",
+    "MAD measures pixel difference, not perceptual or narrative equivalence."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-B-BASELINE-2026-11-26"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "Mira \u2014 DriftWatch smallest proof run, 2026-11-27",
+  "issued_at": "2026-11-27T16:00:44Z",
+  "body_sha256": "583a91ca64720f164cf38649f21ec49589f7da25c076f7476626e62d5b9e723b"
+}

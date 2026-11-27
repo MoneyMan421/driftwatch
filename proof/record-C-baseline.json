@@ -1,0 +1,75 @@
+{
+  "record_id": "DW-C-BASELINE-2026-11-26",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "skill",
+    "name": "Measured Skills packs \u2014 release integrity vs MANIFEST.sha256 (23 packs, v1.0.0 baseline)",
+    "version": "MANIFEST.sha256 sha256:59a56f647372b202ca6c8a3dc488592afaf9f1be21668a76b4fd0b95e2772165",
+    "content_sha256": "59a56f647372b202ca6c8a3dc488592afaf9f1be21668a76b4fd0b95e2772165"
+  },
+  "method": {
+    "tool": "sha256sum -c MANIFEST.sha256 and check_install.py",
+    "tool_version": "check_install.py sha256:d7cbce6bf1d0a7e5a686545b8aaa7df243a0ff7dbcd657634ed78a1beabd1799",
+    "procedure": "Independent re-hash of all 23 manifest files plus the install checker on a pristine copy, as recorded at delivery",
+    "measured_at": "2026-11-26",
+    "environment": "Values transcribed from ~/workspace/measured-skills/RELEASES.md (Baseline verification \u2014 v1.0.0)"
+  },
+  "measurements": [
+    {
+      "name": "files_in_manifest",
+      "value": 23,
+      "target": 23,
+      "result": "pass"
+    },
+    {
+      "name": "files_hash_ok",
+      "value": 23,
+      "target": 23,
+      "result": "pass"
+    },
+    {
+      "name": "files_missing",
+      "value": 0,
+      "target": 0,
+      "result": "pass"
+    },
+    {
+      "name": "files_changed",
+      "value": 0,
+      "target": 0,
+      "result": "pass"
+    },
+    {
+      "name": "files_extra",
+      "value": 0,
+      "target": 0,
+      "result": "pass"
+    }
+  ],
+  "verdict": {
+    "outcome": "Baseline pinned: 23 OK, 0 missing, 0 changed, 0 extra; both verifications exit 0"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/measured-skills/RELEASES.md",
+      "sha256": "c5e05d8db31149d54c4601942b665ae1f52926057dfb83205c4dd1e5e8787b90"
+    }
+  ],
+  "limitations": [
+    "Baseline transcribed from the delivery record in RELEASES.md."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-C-RERUN-2026-11-27"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "Mira \u2014 DriftWatch smallest proof run, 2026-11-27",
+  "issued_at": "2026-11-27T16:00:44Z",
+  "body_sha256": "d07f51657443d49382bfbc030d3d4b57aa5333395cab29ef2da37f3c6e297f8f"
+}

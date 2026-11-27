@@ -1,0 +1,2 @@
+Checked all packs: 23 OK, 0 missing, 0 changed, 0 extra (of 23 files).
+Result: clean — this copy matches the release exactly.

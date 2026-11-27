@@ -1,0 +1,25 @@
+{
+  "effective_dpi": 65.0,
+  "dpi_verdict": "UNMEASURED",
+  "dpi_note": "65 DPI is below the T2 measured pass point (150 DPI); the programme did not certify a lower floor.",
+  "checks": [
+    {
+      "check": "pattern_seam",
+      "verdict": "CLEANLY",
+      "note": "T9 seam check, worse axis rules: vertical join wrap 0.72, dE00 excess -7.14 (CLEANLY); horizontal join wrap 0.60, dE00 excess -0.45 (CLEANLY). Bands: CLEANLY wrap <= 1.5 and excess <= 1.0; COST wrap <= 4.0 and excess <= 3.0; else FAILS. A broken wrap is healed at the tile (offset-and-heal) \u2014 no DPI or pipeline repairs it.",
+      "vertical": {
+        "wrap_ratio": 0.719,
+        "de_excess": -7.136
+      },
+      "horizontal": {
+        "wrap_ratio": 0.595,
+        "de_excess": -0.449
+      }
+    }
+  ],
+  "image": "/home/hatch/workspace/proofbench-acceptance/pg4-clean-tile.png",
+  "pixels": [
+    256,
+    256
+  ]
+}

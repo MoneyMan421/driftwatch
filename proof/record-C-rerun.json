@@ -1,0 +1,80 @@
+{
+  "record_id": "DW-C-RERUN-2026-11-27",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "skill",
+    "name": "Measured Skills packs \u2014 release integrity vs MANIFEST.sha256 (23 packs, v1.0.0 baseline)",
+    "version": "MANIFEST.sha256 sha256:59a56f647372b202ca6c8a3dc488592afaf9f1be21668a76b4fd0b95e2772165",
+    "content_sha256": "59a56f647372b202ca6c8a3dc488592afaf9f1be21668a76b4fd0b95e2772165"
+  },
+  "method": {
+    "tool": "sha256sum -c MANIFEST.sha256 and check_install.py",
+    "tool_version": "check_install.py sha256:d7cbce6bf1d0a7e5a686545b8aaa7df243a0ff7dbcd657634ed78a1beabd1799",
+    "procedure": "cd ~/workspace/measured-skills && sha256sum -c MANIFEST.sha256; python3 check_install.py",
+    "measured_at": "2026-11-27",
+    "environment": "Local run against the delivery folder itself"
+  },
+  "measurements": [
+    {
+      "name": "files_in_manifest",
+      "value": 23,
+      "target": 23,
+      "result": "pass"
+    },
+    {
+      "name": "files_hash_ok",
+      "value": 23,
+      "target": 23,
+      "result": "pass"
+    },
+    {
+      "name": "files_missing",
+      "value": 0,
+      "target": 0,
+      "result": "pass"
+    },
+    {
+      "name": "files_changed",
+      "value": 0,
+      "target": 0,
+      "result": "pass"
+    },
+    {
+      "name": "files_extra",
+      "value": 0,
+      "target": 0,
+      "result": "pass"
+    }
+  ],
+  "verdict": {
+    "outcome": "STABLE \u2014 23 of 23 files hash-match the pinned release manifest, identical to the 2026-11-26 delivery baseline; both commands exit 0"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/proof/raw/suite-c-sha256sum.txt",
+      "sha256": "ebd592fed263ad9842fb2faabcdd13e9f2c67f98d2a8f2f8fcee3cc0694df46b"
+    },
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/proof/raw/suite-c-check-install.txt",
+      "sha256": "466c24d96f791079df23266c4d8c46e182bc0e77daa6d566357368938f78268f"
+    }
+  ],
+  "limitations": [
+    "Verifies file integrity against the manifest only; it does not re-measure the content quality of any pack."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-C-BASELINE-2026-11-26"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "Mira \u2014 DriftWatch smallest proof run, 2026-11-27",
+  "issued_at": "2026-11-27T16:00:44Z",
+  "body_sha256": "12c60c06d4c6365a07fb6c19e9f387d592ca099b797860010ce7b8a92a54f2d7"
+}
