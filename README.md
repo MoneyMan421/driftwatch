@@ -66,11 +66,15 @@ baselines and re-run unchanged: the ProofBench Seam Check (T9,
 CIEDE2000), the framediff media check on Two Lights v1 vs v3, and
 the Measured Skills release-integrity check. The first Drift Report
 — `reports/DRIFT-REPORT-2026-11-27-001.md` — records what the runs
-showed: one real change, two stable results, and one arm that could
-not be re-measured and is reported inconclusive. Proof Records and
-the full run log are under `proof/`. Step 4 of the proof — the
-runner in five outside hands, run twice — has not happened yet,
-and the packaged runner is still in build. Anything this page says
+showed: one real change and three stable results. (One arm, the
+hosted-app check, could not be re-measured in the first session
+and was reported inconclusive; it was measured later the same day
+and closed STABLE by Amendment 1, appended to the report — the
+original text stands as issued.) Proof Records and the full run
+log are under `proof/`. The runner is packaged at `runner/` and
+self-tested: all three suites reproduce their pinned baselines
+through it. Step 4 of the proof — the runner in five outside
+hands, run twice — has not happened yet. Anything this page says
 DriftWatch *does* is the method above; anything it *will do* is
 labelled as such. That distinction is the product.
 

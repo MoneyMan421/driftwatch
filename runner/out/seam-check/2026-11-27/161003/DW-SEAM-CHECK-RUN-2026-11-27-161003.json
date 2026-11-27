@@ -1,0 +1,118 @@
+{
+  "record_id": "DW-SEAM-CHECK-RUN-2026-11-27-161003",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "tool",
+    "name": "ProofBench Seam Check (T9) on PG4 canonical fixtures \u2014 certified checker arm",
+    "version": "print_check.py sha256:54d986d9bda2fdb4ce08dea22a4c426af55c088f9968436272daf21b7d2a9d98",
+    "content_sha256": "27d717af4bf490c3336f01992529b09cda6b5bc1f1808c9e739b6c7b662cf59e"
+  },
+  "method": {
+    "tool": "DriftWatch runner (driftwatch.py 0.1.0) \u2014 suite 'seam-check': print_check.py --pattern (certified reference checker)",
+    "tool_version": "driftwatch.py 0.1.0",
+    "procedure": "python3 tools/print_check.py /home/hatch/workspace/proofbench-acceptance/pg4-clean-tile.png --print-width-mm 100 --print-height-mm 100 --pattern --json; python3 tools/print_check.py /home/hatch/workspace/proofbench-acceptance/pg4-shifted-tile.png --print-width-mm 100 --print-height-mm 100 --pattern --json",
+    "measured_at": "2026-11-27",
+    "environment": "Local run via the DriftWatch free runner; baseline DW-A-BASELINE-2026-11-17"
+  },
+  "measurements": [
+    {
+      "name": "clean_vertical_wrap_ratio",
+      "value": 0.719,
+      "target": 0.72,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "clean_vertical_de_excess",
+      "value": -7.136,
+      "target": -7.14,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "clean_horizontal_wrap_ratio",
+      "value": 0.595,
+      "target": 0.6,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "clean_horizontal_de_excess",
+      "value": -0.449,
+      "target": -0.45,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "shifted_vertical_wrap_ratio",
+      "value": 24.356,
+      "target": 24.36,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "shifted_vertical_de_excess",
+      "value": 21.386,
+      "target": 21.39,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "shifted_horizontal_wrap_ratio",
+      "value": 0.595,
+      "target": 0.6,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "shifted_horizontal_de_excess",
+      "value": -0.449,
+      "target": -0.45,
+      "result": "pass",
+      "tolerance": "\u00b10.005 (abs)"
+    },
+    {
+      "name": "clean_verdict",
+      "value": "CLEANLY",
+      "target": "not in baseline",
+      "result": "noted"
+    },
+    {
+      "name": "shifted_verdict",
+      "value": "FAILS",
+      "target": "not in baseline",
+      "result": "noted"
+    }
+  ],
+  "verdict": {
+    "outcome": "STABLE \u2014 all 8 compared measurements within tolerance of baseline DW-A-BASELINE-2026-11-17"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/runner/out/seam-check/2026-11-27/161003/raw-cmd1.txt",
+      "sha256": "fc971cf98c8e2cfd82d4a162eb3f1d82993679704669f1fc1678f5f164cf0537"
+    },
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/runner/out/seam-check/2026-11-27/161003/raw-cmd2.txt",
+      "sha256": "6192bdc7e35b1fa4f33fa35997b49a972b45c41620d9680d89bc13b81668db39"
+    }
+  ],
+  "limitations": [
+    "Automated re-run by the DriftWatch free runner; compares only the measurements named in the baseline record."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-A-BASELINE-2026-11-17"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "DriftWatch runner (driftwatch.py 0.1.0)",
+  "issued_at": "2026-11-27T16:10:04Z",
+  "body_sha256": "60204d5f959657a2546a1cc686d64eb1456dca9d90b4b15f970dfa7d722dbf7c"
+}

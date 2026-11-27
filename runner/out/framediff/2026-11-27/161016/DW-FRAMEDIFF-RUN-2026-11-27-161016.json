@@ -1,0 +1,95 @@
+{
+  "record_id": "DW-FRAMEDIFF-RUN-2026-11-27-161016",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "output",
+    "name": "Two Lights video v1 vs v3 \u2014 outside-window frame difference (window 6.5-10.0 s excluded)",
+    "version": "v3 sha256:f41653ace620e36eaf21659ab6c3e563db5b0a9a51ba21f4d0bd393b1b174001; v1 sha256:44ab6a4f630879ce3162b846bfd1937b1b6e3739eee7aa0d53de4108bdbb6e6b",
+    "content_sha256": "f41653ace620e36eaf21659ab6c3e563db5b0a9a51ba21f4d0bd393b1b174001"
+  },
+  "method": {
+    "tool": "DriftWatch runner (driftwatch.py 0.1.0) \u2014 suite 'framediff': framediff.py (Fix the Take proof harness)",
+    "tool_version": "driftwatch.py 0.1.0",
+    "procedure": "python3 /home/hatch/workspace/fix-the-take-proof/framediff.py /home/hatch/workspace/imagine_media/media-generation-gaia-two-lights-video-v3-0-0da19dba-04bc-4040-900a-7c5b1abb601c.mp4 /home/hatch/workspace/imagine_media/media-generation-gaia-two-lights-video-v3-0-0da19dba-04bc-4040-900a-7c5b1abb601c.mp4 --start 6.5 --end 10.0 --json; python3 /home/hatch/workspace/fix-the-take-proof/framediff.py /home/hatch/workspace/imagine_media/media-generation-gaia-two-lights-video-v3-0-0da19dba-04bc-4040-900a-7c5b1abb601c.mp4 /home/hatch/workspace/imagine_media/media-generation-gaia-two-lights-video-0-b63606d4-eb7f-458f-85bc-04f57c4b86e7.mp4 --start 6.5 --end 10.0 --json",
+    "measured_at": "2026-11-27",
+    "environment": "Local run via the DriftWatch free runner; baseline DW-B-BASELINE-2026-11-26"
+  },
+  "measurements": [
+    {
+      "name": "self_v3v3_mad_max",
+      "value": 0.0,
+      "target": 0.0,
+      "result": "pass",
+      "tolerance": "exact match"
+    },
+    {
+      "name": "self_v3v3_mad_mean",
+      "value": 0.0,
+      "target": 0.0,
+      "result": "pass",
+      "tolerance": "exact match"
+    },
+    {
+      "name": "cross_v3v1_mad_max",
+      "value": 78.6012,
+      "target": 78.6012,
+      "result": "pass",
+      "tolerance": "exact match",
+      "unit": "MAD"
+    },
+    {
+      "name": "cross_v3v1_mad_mean",
+      "value": 68.6311,
+      "target": 68.6311,
+      "result": "pass",
+      "tolerance": "exact match",
+      "unit": "MAD"
+    },
+    {
+      "name": "cross_v3v1_mad_median",
+      "value": 70.1647,
+      "target": 70.1647,
+      "result": "pass",
+      "tolerance": "exact match",
+      "unit": "MAD"
+    },
+    {
+      "name": "cross_frames_with_mad_over_5",
+      "value": 156,
+      "target": 156,
+      "result": "pass",
+      "tolerance": "exact match"
+    }
+  ],
+  "verdict": {
+    "outcome": "STABLE \u2014 all 6 compared measurements within tolerance of baseline DW-B-BASELINE-2026-11-26"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/runner/out/framediff/2026-11-27/161016/raw-cmd1.txt",
+      "sha256": "01fdbfd5d70390f08b66ab74f0522f9000e420777d974edf2fd42a1bdee6d668"
+    },
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/runner/out/framediff/2026-11-27/161016/raw-cmd2.txt",
+      "sha256": "d19d26816ac25ac84fdb44f484cfaf06d783f0f583ec18773586815f25ffd129"
+    }
+  ],
+  "limitations": [
+    "Automated re-run by the DriftWatch free runner; compares only the measurements named in the baseline record."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-B-BASELINE-2026-11-26"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "DriftWatch runner (driftwatch.py 0.1.0)",
+  "issued_at": "2026-11-27T16:10:38Z",
+  "body_sha256": "a7fb7a5abd5055227cfaad5b22adcfb62fc0425ce8d3886d7d93c5b3fbc25238"
+}

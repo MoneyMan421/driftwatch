@@ -1,0 +1,16 @@
+Suite A — hosted app arm re-run, 2026-11-27, 09:07–09:10 MST (runtime-measured session).
+Source: ProofBench hosted app, https://proofbench-2kidajzh.manus.space
+Instrument: Seam Check 02, "Tile edge analysis". App labels: "v2", "BUILD 02.01", "PB / 002".
+Scale used: 1.000x, native resolution (as reported by the app for both files).
+Fixtures: pg4-clean-tile.png, pg4-shifted-tile.png (256 x 256 px).
+Numbers copied exactly as displayed; no rounding or conversion.
+
+pg4-clean-tile.png — Verdict: CLEANLY; Worst wrap ratio: 0.82
+- Vertical join: Wrap ratio 0.82; dE00 excess -0.91; Raw wrap step 1.11 dE00
+- Horizontal join: Wrap ratio 0.72; dE00 excess -0.02; Raw wrap step 1.30 dE00
+- Interior median: 2.254 dE76 (vertical) / 3.072 dE76 (horizontal)
+
+pg4-shifted-tile.png — Verdict: FAILS; Worst wrap ratio: 27.13
+- Vertical join: Wrap ratio 27.13; dE00 excess +36.86; Raw wrap step 38.95 dE00
+- Horizontal join: Wrap ratio 0.72; dE00 excess -0.02; Raw wrap step 1.30 dE00
+- Interior median: 2.278 dE76 (vertical) / 3.072 dE76 (horizontal)

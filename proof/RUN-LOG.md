@@ -148,3 +148,20 @@ be re-run in this session — the app is a hosted browser tool and
 this run had no browser operation available — so whether the live
 app's readings have moved since Nov 17 is **not measured** here and
 is reported as inconclusive, not assumed stable.
+
+## Amendment 1 — Suite A app arm re-run (2026-11-27, 09:07–09:10 MST)
+
+The hosted ProofBench app arm, inconclusive in the original run for
+lack of a browser, was re-run in a browser session on the same PG4
+fixtures (clean sha256 27d717af..., shifted sha256 2edc8533...) at
+native resolution; the app reported "Scale used: 1.000x" for both
+files and labels "v2" / "BUILD 02.01". All fifteen readings
+comparable to the 2026-11-17 app baseline are identical (verdicts
+CLEANLY / FAILS; clean 0.82/-0.91/1.11 and 0.72/-0.02/1.30, interior
+medians 2.254/3.072; shifted 27.13/+36.86/38.95 and 0.72/-0.02/1.30,
+horizontal interior median 3.072). The shifted vertical interior
+median (2.278) has no Nov 17 counterpart and is reported without
+comparison. Outcome: STABLE — the inconclusive arm is closed.
+Record: proof/record-A-apparm-rerun.json (schema-validated,
+body_sha256 aab297af...). Raw transcription:
+proof/raw/suite-a-app-rerun.txt.

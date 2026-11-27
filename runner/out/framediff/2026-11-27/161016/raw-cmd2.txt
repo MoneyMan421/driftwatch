@@ -1,0 +1,23 @@
+{
+  "video_a": "/home/hatch/workspace/imagine_media/media-generation-gaia-two-lights-video-v3-0-0da19dba-04bc-4040-900a-7c5b1abb601c.mp4",
+  "video_b": "/home/hatch/workspace/imagine_media/media-generation-gaia-two-lights-video-0-b63606d4-eb7f-458f-85bc-04f57c4b86e7.mp4",
+  "resolution": "1152x768",
+  "fps": 24.0,
+  "frames_a": 240,
+  "frames_b": 240,
+  "frames_decoded_paired": 240,
+  "window_seconds": [
+    6.5,
+    10.0
+  ],
+  "window_frames": [
+    156,
+    240
+  ],
+  "frames_compared_outside_window": 156,
+  "mad_max": 78.6012,
+  "mad_mean": 68.6311,
+  "mad_median": 70.1647,
+  "frames_with_mad_over_1": 156,
+  "frames_with_mad_over_5": 156
+}

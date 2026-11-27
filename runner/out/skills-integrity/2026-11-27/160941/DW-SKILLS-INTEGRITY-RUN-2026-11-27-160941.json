@@ -1,0 +1,85 @@
+{
+  "record_id": "DW-SKILLS-INTEGRITY-RUN-2026-11-27-160941",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "skill",
+    "name": "Measured Skills packs \u2014 release integrity vs MANIFEST.sha256 (23 packs, v1.0.0 baseline)",
+    "version": "MANIFEST.sha256 sha256:59a56f647372b202ca6c8a3dc488592afaf9f1be21668a76b4fd0b95e2772165",
+    "content_sha256": "59a56f647372b202ca6c8a3dc488592afaf9f1be21668a76b4fd0b95e2772165"
+  },
+  "method": {
+    "tool": "DriftWatch runner (driftwatch.py 0.1.0) \u2014 suite 'skills-integrity': sha256sum -c MANIFEST.sha256 and check_install.py",
+    "tool_version": "driftwatch.py 0.1.0",
+    "procedure": "sha256sum -c MANIFEST.sha256; python3 check_install.py",
+    "measured_at": "2026-11-27",
+    "environment": "Local run via the DriftWatch free runner; baseline DW-C-BASELINE-2026-11-26"
+  },
+  "measurements": [
+    {
+      "name": "files_in_manifest",
+      "value": 23,
+      "target": 23,
+      "result": "pass",
+      "tolerance": "exact match"
+    },
+    {
+      "name": "files_hash_ok",
+      "value": 23,
+      "target": 23,
+      "result": "pass",
+      "tolerance": "exact match"
+    },
+    {
+      "name": "files_missing",
+      "value": 0,
+      "target": 0,
+      "result": "pass",
+      "tolerance": "exact match"
+    },
+    {
+      "name": "files_changed",
+      "value": 0,
+      "target": 0,
+      "result": "pass",
+      "tolerance": "exact match"
+    },
+    {
+      "name": "files_extra",
+      "value": 0,
+      "target": 0,
+      "result": "pass",
+      "tolerance": "exact match"
+    }
+  ],
+  "verdict": {
+    "outcome": "STABLE \u2014 all 5 compared measurements within tolerance of baseline DW-C-BASELINE-2026-11-26"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/runner/out/skills-integrity/2026-11-27/160941/raw-cmd1.txt",
+      "sha256": "ebd592fed263ad9842fb2faabcdd13e9f2c67f98d2a8f2f8fcee3cc0694df46b"
+    },
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/runner/out/skills-integrity/2026-11-27/160941/raw-cmd2.txt",
+      "sha256": "466c24d96f791079df23266c4d8c46e182bc0e77daa6d566357368938f78268f"
+    }
+  ],
+  "limitations": [
+    "Automated re-run by the DriftWatch free runner; compares only the measurements named in the baseline record."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-C-BASELINE-2026-11-26"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "DriftWatch runner (driftwatch.py 0.1.0)",
+  "issued_at": "2026-11-27T16:09:41Z",
+  "body_sha256": "68b2eef6cf0a97f02c3820894ada53fbadabb9dc23c1166b9e7b4363c7501bac"
+}

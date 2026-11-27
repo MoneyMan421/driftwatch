@@ -1,0 +1,162 @@
+{
+  "record_id": "DW-A-APPARM-RERUN-2026-11-27",
+  "record_type": "checker_result",
+  "standard": {
+    "name": "Proof Record",
+    "version": "0.3.0"
+  },
+  "subject": {
+    "kind": "tool",
+    "name": "ProofBench Seam Check (T9) on PG4 canonical fixtures \u2014 hosted app arm",
+    "version": "ProofBench v2, BUILD 02.01, at proofbench-2kidajzh.manus.space",
+    "content_sha256": "27d717af4bf490c3336f01992529b09cda6b5bc1f1808c9e739b6c7b662cf59e"
+  },
+  "method": {
+    "tool": "ProofBench v2 hosted app, Seam Check instrument 02 (Tile edge analysis)",
+    "tool_version": "BUILD 02.01",
+    "procedure": "Uploaded pg4-clean-tile.png and pg4-shifted-tile.png (256x256) to the hosted Seam Check; scale used 1.000x at native resolution, as reported by the app for both files; all displayed readings transcribed exactly.",
+    "measured_at": "2026-11-27",
+    "environment": "Hosted app via cloud browser session, 2026-11-27 09:07-09:10 MST (runtime-measured). Fixtures identical to the certified-checker arm (clean sha256 27d717af..., shifted sha256 2edc8533...)."
+  },
+  "measurements": [
+    {
+      "name": "clean_vertical_wrap_ratio",
+      "value": 0.82,
+      "target": 0.82,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "clean_vertical_de_excess",
+      "value": -0.91,
+      "target": -0.91,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "clean_vertical_raw_step_de00",
+      "value": 1.11,
+      "target": 1.11,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "clean_horizontal_wrap_ratio",
+      "value": 0.72,
+      "target": 0.72,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "clean_horizontal_de_excess",
+      "value": -0.02,
+      "target": -0.02,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "clean_horizontal_raw_step_de00",
+      "value": 1.3,
+      "target": 1.3,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "clean_interior_median_vertical_de76",
+      "value": 2.254,
+      "target": 2.254,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "clean_interior_median_horizontal_de76",
+      "value": 3.072,
+      "target": 3.072,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_vertical_wrap_ratio",
+      "value": 27.13,
+      "target": 27.13,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_vertical_de_excess",
+      "value": 36.86,
+      "target": 36.86,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_vertical_raw_step_de00",
+      "value": 38.95,
+      "target": 38.95,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_horizontal_wrap_ratio",
+      "value": 0.72,
+      "target": 0.72,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_horizontal_de_excess",
+      "value": -0.02,
+      "target": -0.02,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_horizontal_raw_step_de00",
+      "value": 1.3,
+      "target": 1.3,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_interior_median_horizontal_de76",
+      "value": 3.072,
+      "target": 3.072,
+      "result": "pass",
+      "tolerance": "exact match to the 2026-11-17 app baseline as displayed (2 dp)"
+    },
+    {
+      "name": "shifted_interior_median_vertical_de76",
+      "value": 2.278,
+      "target": "not recorded in the 2026-11-17 app baseline",
+      "result": "noted",
+      "tolerance": "no baseline figure exists; reported without comparison"
+    }
+  ],
+  "verdict": {
+    "outcome": "STABLE \u2014 verdicts CLEANLY / FAILS and all fifteen comparable readings identical to the 2026-11-17 hosted-app baseline; the Suite A app arm's inconclusive status in Drift Report 2026-11-27-001 is closed",
+    "deficits": [
+      "One figure has no baseline counterpart: the shifted fixture's vertical interior median (2.278 dE76) was not recorded on 2026-11-17, so it is reported without comparison (result: noted)."
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "locator": "/home/hatch/workspace/driftwatch/proof/raw/suite-a-app-rerun.txt",
+      "sha256": "f6366d789b79bcafcbbaf22e8eba407c327f47f78f8e54679671061b156c93a5"
+    }
+  ],
+  "limitations": [
+    "Covers the hosted app implementation only; the app samples differently from the certified checker and its numbers are not interchangeable with the checker arm's.",
+    "A single re-run on one day establishes stability between 2026-11-17 and 2026-11-27 for these fixtures, nothing wider."
+  ],
+  "context": {
+    "related_record_ids": [
+      "DW-A-BASELINE-2026-11-17",
+      "DW-A-RERUN-2026-11-27"
+    ]
+  },
+  "supersedes": null,
+  "issued_by": "Mira \u2014 DriftWatch Report 001 amendment run, 2026-11-27",
+  "issued_at": "2026-11-27T09:11:22-07:00",
+  "body_sha256": "aab297af40804366394c93e137575c714b29b2b84432fb85509f5e8aa7a0f7b4"
+}
